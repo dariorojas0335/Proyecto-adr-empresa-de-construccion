@@ -89,4 +89,39 @@ Se utilizará la configuración existente sin Google Analytics y en modo de segu
 * **Antigravity:** Utilizarlo para agilizar la creación de los formularios de la tabla `empleados`, asegurando que los nombres de los campos coincidan exactamente con la base de datos de Firebase.
 * **Manejo de Fechas:** Dado que tienes el campo `fecha de contratación`, se usará el widget `DatePicker` de Flutter para estandarizar la entrada de datos.
 
-**¿Deseas que procedamos a generar el código del Modelo de Datos y el Servicio de Firestore para la tabla de empleados?**
+**Organización de carpetas**
+
+darios_buildings/
+├── android/                # Configuración nativa Android (google-services.json aquí)
+├── ios/                    # Configuración nativa iOS (GoogleService-Info.plist aquí)
+├── windows/                # Configuración nativa para Windows Desktop
+├── web/                    # Configuración para el despliegue Web
+├── assets/                 # Recursos estáticos
+│   ├── images/             # Logos y fotos de maquinaria/construcción
+│   └── icons/              # Iconos industriales personalizados
+├── lib/                    # Carpeta principal de código Dart
+│   ├── core/               # Lógica compartida y utilidades globales
+│   │   ├── constants/      # Colores (Gris, Azul, Naranja), estilos y strings
+│   │   ├── errors/         # Manejo de excepciones personalizadas
+│   │   └── utils/          # Formateadores de fecha y validadores de formularios
+│   ├── features/           # Funcionalidades del negocio (Módulos)
+│   │   ├── auth/           # Login y Registro
+│   │   │   ├── screens/    # UI de autenticación
+│   │   │   └── widgets/    # Botones y campos de texto de auth
+│   │   ├── empleados/      # CRUD de Empleados (Tu enfoque principal)
+│   │   │   ├── screens/    # Listado, Formulario de alta, Detalle
+│   │   │   └── widgets/    # Tabla para Web/Windows y Cards para Móvil
+│   │   └── dashboard/      # Pantalla principal de bienvenida
+│   ├── models/             # Modelos de datos (Clases Dart)
+│   │   └── empleado_model.dart
+│   ├── providers/          # Gestores de estado (ChangeNotifiers)
+│   │   ├── auth_provider.dart
+│   │   └── empleado_provider.dart
+│   ├── services/           # Comunicación con Firebase (Capa de datos)
+│   │   ├── firebase_service.dart
+│   │   └── firestore_empleados.dart
+│   ├── routes/             # Configuración de navegación (GoRouter)
+│   └── main.dart           # Punto de entrada y configuración de MultiProvider
+├── test/                   # Pruebas unitarias y de widgets
+├── pubspec.yaml            # Dependencias y activos
+└── README.md               # Documentación del proyecto
