@@ -1,148 +1,115 @@
-He actualizado el plan de implementación integrando los datos específicos de tu proyecto en Firebase, la compatibilidad multiplataforma y la estructura de datos para la gestión de empleados. También he incluido una sección técnica sobre el flujo con **Antigravity** como herramienta de soporte para el desarrollo.
+¡Excelente idea! Para que **Dario's Buildings** sea una aplicación de gestión empresarial real y no solo una agenda de contactos, necesitamos que la base de datos sea relacional y escalable. He expandido el plan para incluir un ecosistema de tablas (colecciones) que permitirán gestionar obras, materiales y asistencia, manteniendo la estructura de carpetas y el diseño verde que definimos.
 
 ---
 
-# 📋 Plan de Implementación Pro: "Dario's Buildings" (Versión 2.0)
+# 🏗️ Plan de Implementación Maestro: "Dario's Buildings" (V. Extendida)
 
-Este documento es la hoja de ruta técnica definitiva para el desarrollo de la aplicación multiplataforma (Android, iOS, Web, Windows) utilizando el ecosistema Flutter y Firebase.
-
-## 🧱 Fase 1: Entorno y Configuración Multiplataforma
-
-| Paso | Acción | Entregable |
-| --- | --- | --- |
-| **1.1** | **Alcance Multiplataforma:** Configurar el soporte para Android, iOS, Web y Windows (`flutter create --platforms=android,ios,web,windows .`). | Proyecto base listo |
-| **1.2** | **Integración Antigravity:** Configurar el flujo de trabajo entre VS Code y Antigravity para la generación de componentes y previsualización rápida de UI. | Workspace sincronizado |
-| **1.3** | **Control de Versiones:** Repositorio Git con ramas: `main`, `develop`, `feature/auth`, `feature/empleados`, `ui/design`. | Repositorio estructurado |
-| **1.4** | **Arquitectura:** MVVM + Provider. Separación estricta en `lib/features` para escalabilidad. | Diagrama de flujo de datos |
-
-## 🎨 Fase 2: Diseño de Experiencia de Usuario (UX/UI)
-
-| Paso | Acción | Entregable |
-| --- | --- | --- |
-| **2.1** | **Diseño Industrial:** Crear paleta de colores: Gris Cemento (#424242), Azul Seguridad (#1976D2) y Naranja Construcción (#FF9800). | Guía de Estilo |
-| **2.2** | **Componentes CRUD:** Diseñar tablas de datos responsivas para Windows/Web y listas tipo Card para Android/iOS. | UI Adaptativa |
-| **2.3** | **Accesibilidad:** Tamaño de fuente mínimo 14sp y contraste de botones para uso en exteriores (alta luminosidad). | Documento de UX |
-
-## 🔥 Fase 3: Configuración de Firebase (Identidad del Proyecto)
-
-Se utilizará la configuración existente sin Google Analytics y en modo de seguridad estándar (Test Mode).
-
-* **Nombre del Proyecto:** `BDcrudconstruccion`
-* **ID del Proyecto:** `bdcrudconstruccion`
-* **Número de Proyecto:** `375962957660`
-
-| Plataforma | ID de App / Paquete | Sobrenombre |
-| --- | --- | --- |
-| **Android** | `com.example.crudconstruccion` | mi app construccion |
-| **iOS** | `com.ios.construccion` (ID Store: 1508) | Buildings apple |
-
-**Acciones Críticas:**
-
-1. **Firestore:** Crear colección `empleados` con los campos: `nombre`, `apellido`, `puesto`, `email`, `telefono`, `fecha_contratacion`.
-2. **Modo:** Configurar en **"Start in Test Mode"** (Reglas de lectura/escritura abiertas temporalmente).
-3. **Archivos:** Descargar e integrar `google-services.json` y `GoogleService-Info.plist`.
-
-## 📦 Fase 4: Estructura del Proyecto y Dependencias
-
-**Archivo `pubspec.yaml` (Referencias necesarias):**
-
-* **Core:** `firebase_core`, `firebase_auth`, `cloud_firestore`.
-* **Estado:** `provider`.
-* **UI Multiplataforma:** `flutter_screenutil`, `responsive_framework`.
-* **Navegación:** `go_router`.
-* **Utilidades:** `intl` (para manejo de fechas de contratación), `url_launcher` (para llamadas/emails a empleados).
-
-## 🗃️ Fase 5: CRUD de Empleados (Lógica de Negocio)
-
-| Paso | Acción | Entregable |
-| --- | --- | --- |
-| **5.1** | **Modelo de Datos:** Crear clase `EmpleadoModel` con métodos `fromFirestore` y `toMap`. | Modelo Dart tipado |
-| **5.2** | **Servicio Firestore:** Implementar métodos `getEmpleados()`, `addEmpleado()`, `updateEmpleado()` y `deleteEmpleado()`. | Capa de datos (Service) |
-| **5.3** | **Provider:** `EmpleadoProvider` para manejar el estado de la lista de empleados y el estado de carga (loading). | Estado global de CRUD |
-| **5.4** | **Formularios:** Validaciones para el teléfono (numérico) y email (formato correcto). | UI de captura de datos |
-
-## 🖥️ Fase 6: Desarrollo de Pantallas Multiplataforma
-
-| Pantalla | Funcionalidad en Móvil (Android/iOS) | Funcionalidad en Escritorio (Windows/Web) |
-| --- | --- | --- |
-| **Dashboard** | Vista resumida con accesos rápidos. | Panel lateral (Sidebar) con estadísticas. |
-| **Lista Empleados** | ListView con scroll infinito y búsqueda. | Tabla de datos con filtros avanzados. |
-| **Detalle/Editar** | Pantalla completa con teclado optimizado. | Ventana modal o panel lateral derecho. |
-
-## 🧪 Fase 7: Pruebas y Optimización
-
-1. **Pruebas CRUD:** Validar que al agregar un empleado en Windows, se refleje instantáneamente en Android vía Streams de Firestore.
-2. **Seguridad:** Revisar que las reglas de Firestore permitan la operación sin errores de "Permission Denied".
-3. **Rendimiento:** Optimización de imágenes de perfil (si se agregan) y uso de `const` widgets.
-
-## 🚀 Fase 8: Despliegue
-
-* **Android:** Generar AppBundle para Play Store.
-* **iOS:** Configurar en Xcode con el ID `com.ios.construccion` y subir a TestFlight.
-* **Web:** `flutter build web` para hosting en Firebase Hosting.
-* **Windows:** `flutter build windows` para distribución del ejecutable (.exe).
+Este documento detalla el desarrollo de la solución multiplataforma con una base de datos robusta de 5 tablas interconectadas.
 
 ---
 
-### 📌 Notas Técnicas Específicas
+## 📂 Fase 0: Estructura del Proyecto (Arquitectura Feature-First)
 
-* **Antigravity:** Utilizarlo para agilizar la creación de los formularios de la tabla `empleados`, asegurando que los nombres de los campos coincidan exactamente con la base de datos de Firebase.
-* **Manejo de Fechas:** Dado que tienes el campo `fecha de contratación`, se usará el widget `DatePicker` de Flutter para estandarizar la entrada de datos.
-
-**Organización de carpetas**
-Para un proyecto multiplataforma (Android, iOS, Web, Windows) que utiliza **Provider** y una arquitectura **Feature-First** (orientada a funciones), la organización debe ser limpia y escalable. Esta estructura permite que el equipo de desarrollo (o tú mismo en el futuro) encuentre la lógica de negocio, los modelos y la UI sin confusión.
-
-Aquí tienes la estructura de carpetas recomendada para **Dario's Buildings**:
+Cada nueva tabla tendrá su propio espacio en `features` para mantener la independencia del código.
 
 ```text
 darios_buildings/
-├── android/                # Configuración nativa Android (google-services.json aquí)
-├── ios/                    # Configuración nativa iOS (GoogleService-Info.plist aquí)
-├── windows/                # Configuración nativa para Windows Desktop
-├── web/                    # Configuración para el despliegue Web
-├── assets/                 # Recursos estáticos
-│   ├── images/             # Logos y fotos de maquinaria/construcción
-│   └── icons/              # Iconos industriales personalizados
-├── lib/                    # Carpeta principal de código Dart
-│   ├── core/               # Lógica compartida y utilidades globales
-│   │   ├── constants/      # Colores (Gris, Azul, Naranja), estilos y strings
-│   │   ├── errors/         # Manejo de excepciones personalizadas
-│   │   └── utils/          # Formateadores de fecha y validadores de formularios
-│   ├── features/           # Funcionalidades del negocio (Módulos)
-│   │   ├── auth/           # Login y Registro
-│   │   │   ├── screens/    # UI de autenticación
-│   │   │   └── widgets/    # Botones y campos de texto de auth
-│   │   ├── empleados/      # CRUD de Empleados (Tu enfoque principal)
-│   │   │   ├── screens/    # Listado, Formulario de alta, Detalle
-│   │   │   └── widgets/    # Tabla para Web/Windows y Cards para Móvil
-│   │   └── dashboard/      # Pantalla principal de bienvenida
-│   ├── models/             # Modelos de datos (Clases Dart)
-│   │   └── empleado_model.dart
-│   ├── providers/          # Gestores de estado (ChangeNotifiers)
-│   │   ├── auth_provider.dart
-│   │   └── empleado_provider.dart
-│   ├── services/           # Comunicación con Firebase (Capa de datos)
-│   │   ├── firebase_service.dart
-│   │   └── firestore_empleados.dart
-│   ├── routes/             # Configuración de navegación (GoRouter)
-│   └── main.dart           # Punto de entrada y configuración de MultiProvider
-├── test/                   # Pruebas unitarias y de widgets
-├── pubspec.yaml            # Dependencias y activos
-└── README.md               # Documentación del proyecto
+├── lib/
+│   ├── core/               # Configuración global, Temas (Verde) y Utilidades
+│   ├── features/           # Módulos por Tabla/Funcionalidad
+│   │   ├── auth/           # Login y Seguridad
+│   │   ├── empleados/      # CRUD de Personal
+│   │   ├── obras/          # Gestión de Proyectos de Construcción (Nueva)
+│   │   ├── materiales/     # Control de Inventario/Insumos (Nueva)
+│   │   └── asistencia/     # Registro de Entradas/Salidas (Nueva)
+│   ├── models/             # Clases Dart para cada tabla
+│   ├── providers/          # Gestores de estado (uno por cada feature)
+│   ├── services/           # FirestoreService unificado
+│   └── main.dart           # Configuración de Temas y MultiProvider
+├── android/app/            # google-services.json
+├── ios/Runner/             # GoogleService-Info.plist
+└── windows/ & web/         # Configuraciones nativas
 
 ```
 
 ---
 
-### 🔍 Detalles clave de las carpetas:
+## 🗃️ Fase 1: Nuevo Diseño de Base de Datos (Firestore)
 
-1. **`features/`**: Es el corazón del proyecto. En lugar de mezclar todas las pantallas en una carpeta `screens`, las separamos por funcionalidad. Así, todo lo relacionado con **empleados** está en un solo lugar.
-2. **`services/`**: Aquí es donde vive la conexión directa con Firestore. El `firestore_empleados.dart` contendrá las funciones `add`, `update` y `delete`. El Provider llamará a estas funciones.
-3. **`providers/`**: Actúa como el intermediario. El **EmpleadoProvider** se encarga de llamar al servicio, manejar el estado de carga (loading) y notificar a la UI (`notifyListeners()`) cuando los datos cambian.
-4. **`core/constants/`**: Aquí definirás el tema visual industrial. Por ejemplo, una clase `AppColors` con el Gris Cemento y Naranja Construcción que mencionamos.
+Pasamos de una sola tabla a un ecosistema de gestión integral. Sin analíticas y en modo estándar.
 
-### 🚀 Uso con Antigravity
+| Tabla (Colección) | Campos (Atributos) | Propósito |
+| --- | --- | --- |
+| **Empleados** | `id`, `nombre`, `apellido`, `puesto`, `email`, `telefono`, `fecha_contratacion`. | Gestión del capital humano. |
+| **Obras** | `id`, `nombre_proyecto`, `ubicación`, `cliente`, `fecha_inicio`, `estado` (Activa/Finalizada). | Control de los frentes de trabajo. |
+| **Asistencia** | `id_empleado`, `id_obra`, `fecha`, `hora_entrada`, `hora_salida`. | Registro de horas trabajadas por obra. |
+| **Materiales** | `id`, `descripcion`, `cantidad`, `unidad` (m3, kg, pza), `id_obra`. | Inventario asignado a cada construcción. |
+| **Usuarios** | `uid`, `email`, `rol` (Admin/Capataz), `nombre`. | Control de acceso y permisos internos. |
 
-Al usar **Antigravity**, puedes enfocarte en generar rápidamente los archivos dentro de `features/empleados/widgets/` y `screens/`, asegurándote de que los nombres de los controladores coincidan con lo que el `EmpleadoProvider` espera.
+---
 
-**¿Te gustaría que generemos el código del `empleado_model.dart` para que coincida exactamente con los campos de tu tabla en Firestore?**
+## 🧱 Fase 2: Planificación y Configuración del Entorno
+
+| Paso | Acción | Entregable |
+| --- | --- | --- |
+| **2.1** | **Alcance:** CRUD completo para las 5 tablas y reportes básicos de asistencia. | Documento de requerimientos |
+| **2.2** | **Entorno:** VS Code + Flutter + Antigravity para diseño rápido de formularios. | Workspace listo |
+| **2.3** | **Git:** Ramas: `main`, `feature/empleados`, `feature/obras`, `feature/materiales`. | Control de versiones |
+
+---
+
+## 🎨 Fase 3: Diseño UI/UX "Verde Construcción"
+
+| Paso | Acción | Entregable |
+| --- | --- | --- |
+| **3.1** | **Header Corporativo:** Implementar un `AppBar` sólido en **Verde (#2E7D32)** para todas las vistas. | UI de marca |
+| **3.2** | **Dashboard:** Menú de botones grandes (Cards) para acceder a cada tabla (Empleados, Obras, etc.). | Home Screen |
+| **3.3** | **Formularios:** Diseño llamativo con validaciones en tiempo real para emails y teléfonos. | Vistas de captura |
+
+---
+
+## 🔥 Fase 4: Configuración de Firebase (BDcrudconstruccion)
+
+| Paso | Acción | Entregable |
+| --- | --- | --- |
+| **4.1** | **Proyecto:** Vincular con ID `bdcrudconstruccion` y número `375962957660`. | Firebase conectado |
+| **4.2** | **Privacidad:** Exclusión absoluta de `firebase_analytics`. | App optimizada y privada |
+| **4.3** | **Firestore:** Creación de las 5 colecciones mencionadas en la Fase 1. | DB Multitabla lista |
+
+---
+
+## 📦 Fase 5: Estructura de Datos y Provider
+
+| Paso | Acción | Entregable |
+| --- | --- | --- |
+| **5.1** | **Modelos Dart:** Crear clases para `Empleado`, `Obra` y `Material` con métodos `toJson/fromJson`. | Modelos vinculados |
+| **5.2** | **Servicios:** Centralizar llamadas a Firebase en `lib/services/firestore_service.dart`. | Capa de datos sólida |
+| **5.3** | **MultiProvider:** Inyectar `EmpleadoProvider`, `ObraProvider` y `MaterialProvider` en `main.dart`. | Estado global reactivo |
+
+---
+
+## 🖥️ Fase 6: Desarrollo de Pantallas Multiplataforma
+
+| Paso | Acción | Entregable |
+| --- | --- | --- |
+| **6.1** | **Vistas Web/Windows:** Implementar tablas anchas para visualizar materiales y obras simultáneamente. | UI Desktop |
+| **6.2** | **Vistas Móvil:** Listados simplificados con botones flotantes **Naranja (#FF9800)** para agregar registros. | UI Mobile |
+| **6.3** | **Filtros:** Permitir filtrar empleados por puesto u obras por estado. | UX avanzada |
+
+---
+
+## 🚀 Fase 7: Despliegue y Mantenimiento
+
+| Paso | Acción | Entregable |
+| --- | --- | --- |
+| **7.1** | **Builds:** Generar APK para Android y ejecutables para Windows. | Binarios finales |
+| **7.2** | **Documentación:** Guía de uso de la estructura de tablas y relaciones. | Manual técnico |
+
+---
+
+### 📌 Notas Estratégicas para el Crecimiento
+
+* **Relaciones:** Aunque Firestore no es relacional, el `EmpleadoProvider` podrá consultar la tabla de `Asistencia` usando el `id_empleado` para generar reportes.
+* **Estética:** El encabezado verde se mantiene como el eje visual de confianza de **Dario's Buildings**.
+
+**¿Deseas que preparemos ahora el código de los 5 Modelos de Datos para que todas tus tablas queden perfectamente definidas en Dart?**
