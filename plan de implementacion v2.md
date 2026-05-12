@@ -90,7 +90,11 @@ Se utilizará la configuración existente sin Google Analytics y en modo de segu
 * **Manejo de Fechas:** Dado que tienes el campo `fecha de contratación`, se usará el widget `DatePicker` de Flutter para estandarizar la entrada de datos.
 
 **Organización de carpetas**
+Para un proyecto multiplataforma (Android, iOS, Web, Windows) que utiliza **Provider** y una arquitectura **Feature-First** (orientada a funciones), la organización debe ser limpia y escalable. Esta estructura permite que el equipo de desarrollo (o tú mismo en el futuro) encuentre la lógica de negocio, los modelos y la UI sin confusión.
 
+Aquí tienes la estructura de carpetas recomendada para **Dario's Buildings**:
+
+```text
 darios_buildings/
 ├── android/                # Configuración nativa Android (google-services.json aquí)
 ├── ios/                    # Configuración nativa iOS (GoogleService-Info.plist aquí)
@@ -125,3 +129,20 @@ darios_buildings/
 ├── test/                   # Pruebas unitarias y de widgets
 ├── pubspec.yaml            # Dependencias y activos
 └── README.md               # Documentación del proyecto
+
+```
+
+---
+
+### 🔍 Detalles clave de las carpetas:
+
+1. **`features/`**: Es el corazón del proyecto. En lugar de mezclar todas las pantallas en una carpeta `screens`, las separamos por funcionalidad. Así, todo lo relacionado con **empleados** está en un solo lugar.
+2. **`services/`**: Aquí es donde vive la conexión directa con Firestore. El `firestore_empleados.dart` contendrá las funciones `add`, `update` y `delete`. El Provider llamará a estas funciones.
+3. **`providers/`**: Actúa como el intermediario. El **EmpleadoProvider** se encarga de llamar al servicio, manejar el estado de carga (loading) y notificar a la UI (`notifyListeners()`) cuando los datos cambian.
+4. **`core/constants/`**: Aquí definirás el tema visual industrial. Por ejemplo, una clase `AppColors` con el Gris Cemento y Naranja Construcción que mencionamos.
+
+### 🚀 Uso con Antigravity
+
+Al usar **Antigravity**, puedes enfocarte en generar rápidamente los archivos dentro de `features/empleados/widgets/` y `screens/`, asegurándote de que los nombres de los controladores coincidan con lo que el `EmpleadoProvider` espera.
+
+**¿Te gustaría que generemos el código del `empleado_model.dart` para que coincida exactamente con los campos de tu tabla en Firestore?**
