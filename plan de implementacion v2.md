@@ -339,3 +339,58 @@ Fuera de la carpeta `lib/`, recuerda que debido a tu configuración multiplatafo
 * `/web/index.html` (Donde se añaden los scripts de Firebase para la versión Web).
 
 **¿Te parece adecuada esta organización para empezar?** Si es así, el siguiente paso lógico es definir el archivo `pubspec.yaml` con las dependencias exactas para que el proyecto pueda compilar estas carpetas.
+
+# Dependencias de pubsec.yaml
+Aquí tienes la configuración exacta que debes agregar a tu archivo `pubspec.yaml` para soportar la arquitectura y la conexión con Firebase, seguida de la enumeración de las 16 tablas de tu diagrama.
+
+### 1. Dependencias para `pubspec.yaml`
+
+Abre tu archivo `pubspec.yaml` y asegúrate de que la sección de dependencias quede de la siguiente manera. He agrupado las librerías por su propósito para mantener el orden:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # --- UI y Diseño base ---
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.1.0        # Tipografía personalizada para la UI
+  flutter_svg: ^2.0.10        # Manejo de iconos y gráficos vectoriales
+
+  # --- Backend: Firebase ---
+  firebase_core: ^3.1.0       # Inicialización core de Firebase
+  cloud_firestore: ^5.0.1     # Base de datos NoSQL para tus 16 tablas
+  firebase_auth: ^5.1.0       # Sistema de login (email/password)
+
+  # --- Gestión de Estado ---
+  provider: ^6.1.2            # Inyección de dependencias y reactividad
+
+  # --- Utilidades ---
+  intl: ^0.19.0               # Formateo de fechas (contratación) y moneda (presupuestos)
+
+```
+
+*(Nota: Las versiones pueden variar ligeramente dependiendo del momento exacto en que ejecutes `flutter pub get`, pero estas son las versiones estables recomendadas para este stack).*
+
+---
+
+### 2. Las 16 Tablas del Diagrama ER (Entidades a desarrollar)
+
+Para que no se escape ningún detalle durante la creación de los modelos (carpeta `/models`) y los servicios de base de datos, aquí están numeradas exactamente las 16 tablas que conforman el núcleo de tu aplicación:
+
+1. **Clientes:** Almacena los datos de las empresas o personas que contratan la construcción.
+2. **Contratos:** Vincula a un cliente con un proyecto específico, detallando montos y estado legal.
+3. **Proyectos:** La entidad central. Contiene fechas, presupuestos y el estado general de la obra.
+4. **Presupuestos:** Detalle financiero estimado asignado a cada proyecto.
+5. **Empleados:** Datos del personal, salarios y fechas de contratación.
+6. **Habilidades:** Sub-registro de competencias y certificaciones por cada empleado.
+7. **Asignaciones:** Tabla relacional que vincula qué empleados están trabajando en qué proyectos.
+8. **Fases:** Etapas principales en las que se divide un proyecto (ej. Cimentación, Obra Negra).
+9. **Tareas:** Acciones específicas dentro de una fase, con prioridad y estado.
+10. **Gastos:** Registro de egresos reales por proyecto.
+11. **Proveedores:** Directorio de empresas que suministran materiales y sus condiciones de pago.
+12. **Materiales:** Catálogo maestro de insumos con costos unitarios.
+13. **Órdenes Compra:** Transacciones de adquisición a proveedores para surtir proyectos.
+14. **Inventario:** Control de stock y ubicaciones de los materiales adquiridos.
+15. **Equipos:** Maquinaria, vehículos y herramientas propiedad de la empresa.
+16. **Asignación Equipos:** Registro de qué maquinaria está asignada a qué proyecto temporalmente.
