@@ -3,6 +3,8 @@ Actúa como un administrador de base de datos: proyecto empresa de construcción
 # Entidades para Base de Datos - Empresa de Construcción
 
 Como administrador de BD, te presento las entidades esenciales organizadas por áreas funcionales:
+<img width="661" height="456" alt="image" src="https://github.com/user-attachments/assets/4a1fccb3-b275-4521-9cdb-1fd1246782ed" />
+
 <img width="920" height="577" alt="image" src="https://github.com/user-attachments/assets/9d82e3ad-ca99-4db5-8a28-7980a5a8dda2" />
 
 
